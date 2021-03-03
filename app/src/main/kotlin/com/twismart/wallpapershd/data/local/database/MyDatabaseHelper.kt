@@ -22,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton class MyDatabaseHelper
-@Inject constructor(val myDatabase: MyDataBase)
+@Inject constructor(private val myDatabase: MyDataBase)
     : IMyDatabaseHelper {
 
     override fun addWallpaperToFavorites(wallpaper: Wallpaper): Observable<Unit> {
@@ -76,11 +76,10 @@ import javax.inject.Singleton
                     if (cursor.moveToFirst()) {
                         val wallpaper = cursor.toWallpaper()
                         subscriber.onNext(wallpaper)
-                        subscriber.onComplete()
                     } else {
                         subscriber.onError(Throwable())
-                        subscriber.onComplete()
                     }
+                    subscriber.onComplete()
                 }
             }
         }

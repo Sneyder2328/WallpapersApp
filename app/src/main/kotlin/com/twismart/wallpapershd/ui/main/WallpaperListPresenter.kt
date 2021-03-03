@@ -23,12 +23,12 @@ import com.twismart.wallpapershd.ui.base.BasePresenter
 import com.twismart.wallpapershd.utils.debug
 import com.twismart.wallpapershd.utils.error
 import io.reactivex.Observable
-import java.util.ArrayList
-import javax.inject.Inject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
+import java.util.*
+import javax.inject.Inject
 
 class WallpaperListPresenter<V : WallpaperListContract.View>
 @Inject constructor(dataManager: IDataManager, compositeDisposable: CompositeDisposable) : BasePresenter<V>(dataManager, compositeDisposable), WallpaperListContract.Presenter<V> {
@@ -45,7 +45,7 @@ class WallpaperListPresenter<V : WallpaperListContract.View>
         getListOfWallpapers(dataManager.loadFavoriteWallpapers())
     }
 
-    fun getListOfWallpapers(func: Observable<ArrayList<Wallpaper>>) {
+    private fun getListOfWallpapers(func: Observable<ArrayList<Wallpaper>>) {
         //use the same request scheme for the others methods because all of them return an Observable with an ArrayList of Wallpaper
         compositeDisposable.add(func
                 .subscribeOn(Schedulers.io())

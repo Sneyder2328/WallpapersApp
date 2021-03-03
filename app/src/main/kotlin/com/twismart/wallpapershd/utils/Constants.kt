@@ -17,8 +17,9 @@
 package com.twismart.wallpapershd.utils
 
 object Constants {
-    val WALLPAPERS_LIST = "listWallpapers"
-    val WALLPAPER_TO_SHOW = "wallpaperToShow"
+    const val API_KEY = "6ce7cedf1a1f41cea28628fce0467bc1"
+    const val WALLPAPERS_LIST = "listWallpapers"
+    const val WALLPAPER_TO_SHOW = "wallpaperToShow"
 
     enum class TypeListWallpapers(var value: String) {
         ALL("all"), MY_FAVORITES("myFavorites"), MOST_POPULAR("mostPopular")

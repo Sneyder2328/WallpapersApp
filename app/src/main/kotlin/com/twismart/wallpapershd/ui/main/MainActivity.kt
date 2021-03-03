@@ -16,8 +16,8 @@
 
 package com.twismart.wallpapershd.ui.main
 
-import android.support.design.widget.TabLayout
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import com.twismart.wallpapershd.R
 import com.twismart.wallpapershd.ui.adapters.ZoomOutPageTransformer
 import com.twismart.wallpapershd.ui.base.BaseActivity

@@ -118,38 +118,119 @@ private fun Class<*>.getTag(): String {
 fun Fragment.toast(text: String) = activity.toast(text)
 
 fun Fragment.toast(@StringRes resId: Int) = activity.toast(resId)
-fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-fun Context.toast(@StringRes resId: Int) = Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+fun Context.toast(text: String) = Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+fun Context.toast(@StringRes resId: Int) = Toast.makeText(applicationContext, resId, Toast.LENGTH_SHORT).show()
 
 fun Fragment.longToast(text: String) = activity.longToast(text)
 fun Fragment.longToast(@StringRes resId: Int) = activity.longToast(resId)
-fun Context.longToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-fun Context.longToast(@StringRes resId: Int) = Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
+fun Context.longToast(text: String) = Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
+fun Context.longToast(@StringRes resId: Int) = Toast.makeText(applicationContext, resId, Toast.LENGTH_LONG).show()
 
 
 // SnackBars
 fun Activity.snackBar(
-        message: String,
+        message: CharSequence,
         view: View = findViewById(android.R.id.content)
-): Snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+) = view.snackBar(message)
 
 fun Activity.snackBar(
         @StringRes resId: Int,
         view: View = findViewById(android.R.id.content)
-): Snackbar = Snackbar.make(view, resId, Snackbar.LENGTH_SHORT)
+) = view.snackBar(resId)
 
-fun Activity.longSnackBar(message: String) = findViewById(android.R.id.content).longSnackBar(message)
+fun Activity.longSnackBar(
+        message: CharSequence,
+        view: View = findViewById(android.R.id.content)
+) = view.longSnackBar(message)
 
-fun Activity.longSnackBar(@StringRes resId: Int) = findViewById(android.R.id.content).longSnackBar(resId)
+fun Activity.longSnackBar(
+        @StringRes resId: Int,
+        view: View = findViewById(android.R.id.content)
+) = view.longSnackBar(resId)
+
+inline fun Activity.snackBar(
+        message: CharSequence,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit,
+        view: View = findViewById(android.R.id.content)
+) = view.snackBar(message, actionText, action)
+
+inline fun Activity.snackBar(
+        @StringRes resId: Int,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit,
+        view: View = findViewById(android.R.id.content)
+) = view.snackBar(resId, actionText, action)
+
+inline fun Activity.longSnackBar(
+        message: CharSequence,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit,
+        view: View = findViewById(android.R.id.content)
+) = view.longSnackBar(message, actionText, action)
+
+inline fun Activity.longSnackBar(
+        @StringRes resId: Int,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit,
+        view: View = findViewById(android.R.id.content)
+) = view.longSnackBar(resId, actionText, action)
+
+inline fun Activity.longSnackBar(
+        @StringRes resId: Int,
+        @StringRes actionText: Int,
+        noinline action: (View) -> Unit,
+        view: View = findViewById(android.R.id.content)
+) = view.longSnackBar(resId, actionText, action)
 
 
-fun View.snackBar(message: String) = Snackbar.make(this, message, Snackbar.LENGTH_SHORT)
+inline fun View.snackBar(message: CharSequence) = Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
 
-fun View.snackBar(@StringRes resId: Int) = Snackbar.make(this, resId, Snackbar.LENGTH_SHORT)
+inline fun View.snackBar(@StringRes resId: Int) = Snackbar.make(this, resId, Snackbar.LENGTH_SHORT).show()
 
-fun View.longSnackBar(message: String) = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+inline fun View.longSnackBar(message: CharSequence) = Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
 
-fun View.longSnackBar(@StringRes resId: Int) = Snackbar.make(this, resId, Snackbar.LENGTH_LONG)
+inline fun View.longSnackBar(@StringRes resId: Int) = Snackbar.make(this, resId, Snackbar.LENGTH_LONG).show()
+
+inline fun View.snackBar(
+        message: CharSequence,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit
+) = Snackbar.make(this, message, Snackbar.LENGTH_SHORT)
+        .setAction(actionText, action)
+        .show()
+
+inline fun View.longSnackBar(
+        message: CharSequence,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit
+) = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        .setAction(actionText, action)
+        .show()
+
+inline fun View.snackBar(
+        @StringRes resId: Int,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit
+) = Snackbar.make(this, resId, Snackbar.LENGTH_SHORT)
+        .setAction(actionText, action)
+        .show()
+
+inline fun View.longSnackBar(
+        @StringRes resId: Int,
+        actionText: CharSequence,
+        noinline action: (View) -> Unit
+) = Snackbar.make(this, resId, Snackbar.LENGTH_LONG)
+        .setAction(actionText, action)
+        .show()
+
+inline fun View.longSnackBar(
+        @StringRes resId: Int,
+        @StringRes actionText: Int,
+        noinline action: (View) -> Unit
+) = Snackbar.make(this, resId, Snackbar.LENGTH_LONG)
+        .setAction(actionText, action)
+        .show()
 
 
 // Dimensions
@@ -575,3 +656,9 @@ fun Intent.noAnimation(): Intent = apply { addFlags(Intent.FLAG_ACTIVITY_NO_ANIM
 fun Intent.noHistory(): Intent = apply { addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY) }
 
 fun Intent.singleTop(): Intent = apply { addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) }
+
+fun SharedPreferences.edit(func: SharedPreferences.Editor.() -> Unit) {
+    val editor = edit()
+    editor.func()
+    editor.apply()
+}

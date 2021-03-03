@@ -31,5 +31,9 @@
   public *;
 }
 
-# for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#this is for retrofit
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+
+# picasso
+-dontwarn com.squareup.okhttp.**

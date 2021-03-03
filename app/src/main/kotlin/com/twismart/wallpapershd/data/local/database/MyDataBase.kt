@@ -48,7 +48,6 @@ class MyDataBase(context: Context, name: String, factory: SQLiteDatabase.CursorF
                 "$COLUMN_NAME_HEIGHT text, " +
                 "$COLUMN_NAME_LICENSE text, " +
                 "$COLUMN_NAME_RATING text)")
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase, versionAnte: Int, versionNue: Int) {

@@ -16,12 +16,12 @@
 
 package com.twismart.wallpapershd.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.amazon.device.ads.*
 import com.twismart.wallpapershd.R
 import com.twismart.wallpapershd.data.model.Wallpaper
 import com.twismart.wallpapershd.ui.base.BaseFragment
@@ -54,18 +54,30 @@ class WallpaperListFragment : BaseFragment(), WallpaperListContract.View {
         }
     }
 
-    override fun onAttach(context: Context?) {
-        debug("F onAttach")
-        super.onAttach(context)
-    }
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         debug("onCreateView F")
+        com.amazon.device.ads.AdRegistration.setAppKey(Constants.API_KEY)
         val v = activity.inflate(R.layout.fragment_list_wallpapers, container)
         activityComponent?.inject(this)
+
+        //amazon ads
+        val mAdLayout: AdLayout = v.findViewById(R.id.adLayout)
+        mAdLayout.setListener(object : AdListener {
+            override fun onAdLoaded(ad: Ad?, p1: AdProperties?) {
+                debug("onAdLoaded")
+            }
+            override fun onAdFailedToLoad(ad: Ad?, error: AdError?) {
+                error("onAdFailedToLoad ${error?.message}")
+                mAdLayout.gone()
+            }
+            override fun onAdExpanded(p0: Ad?) {}
+            override fun onAdDismissed(p0: Ad?) {}
+            override fun onAdCollapsed(p0: Ad?) {}
+        })
+        mAdLayout.loadAd()
+
         return v
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         debug("onActivityCreated F")
@@ -85,7 +97,7 @@ class WallpaperListFragment : BaseFragment(), WallpaperListContract.View {
         super.onActivityCreated(savedInstanceState)
     }
 
-    fun refreshContent() {
+    private fun refreshContent() {
         when (mTypeListWallpapers) {
             Constants.TypeListWallpapers.ALL.value -> {
                 mListPresenter.loadWallpapersList()
@@ -106,9 +118,9 @@ class WallpaperListFragment : BaseFragment(), WallpaperListContract.View {
 
     override fun onDestroyView() {
         mListPresenter.detachView()
-        recyclerViewWallpapers?.gone()
+        //recyclerViewWallpapers?.gone()
         swipeRefresh?.gone()
-        System.gc()
+        //this.clearFindViewByIdCache()
         super.onDestroyView()
     }
 }

@@ -32,7 +32,7 @@ import com.twismart.wallpapershd.ui.wallpaper.WallpaperDetailActivity
 import com.twismart.wallpapershd.utils.debug
 import com.twismart.wallpapershd.utils.isJellyBeanOrLater
 import com.twismart.wallpapershd.utils.screenWidth
-import java.util.ArrayList
+import java.util.*
 
 class WallpaperListAdapter(private val context: Context) : RecyclerView.Adapter<WallpaperListAdapter.WallpaperViewHolder>() {
 
@@ -51,7 +51,7 @@ class WallpaperListAdapter(private val context: Context) : RecyclerView.Adapter<
         holder.bindData(wallpaperList[position], position)
     }
 
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         debug("onDetachedFromRecyclerView")
         super.onDetachedFromRecyclerView(recyclerView)
     }
@@ -60,7 +60,7 @@ class WallpaperListAdapter(private val context: Context) : RecyclerView.Adapter<
 
     inner class WallpaperViewHolder(private val mView: View) : RecyclerView.ViewHolder(mView) {
 
-        val imageWallpaper: ImageView by lazy { mView.findViewById(R.id.imageWallpaper) as ImageView }
+        private val imageWallpaper: ImageView by lazy { mView.findViewById<ImageView>(R.id.imageWallpaper) }
 
         @TargetApi(16)
         fun bindData(itemWallpaper: Wallpaper, position: Int) {
@@ -78,7 +78,7 @@ class WallpaperListAdapter(private val context: Context) : RecyclerView.Adapter<
                     try {
                         // try to start the activity with a cute animation
                         context.startActivity(WallpaperDetailActivity.newIntent(context, wallpaperList, position),
-                                ActivityOptions.makeThumbnailScaleUpAnimation(mView, (imageWallpaper.drawable as BitmapDrawable).bitmap, 0, 0).toBundle())
+                                ActivityOptions.makeThumbnailScaleUpAnimation(imageWallpaper, (imageWallpaper.drawable as BitmapDrawable).bitmap, 0, 0).toBundle())
                     } catch (e: Exception) {
                         // if something get wrong start the activity in a normal way
                         context.startActivity(WallpaperDetailActivity.newIntent(context, wallpaperList, position))

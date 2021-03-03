@@ -71,9 +71,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseContract.View {
 
     override fun showToast(message: String) = toast(message)
 
-    override fun showSnackBar(message: String) = snackBar(message).show()
+    override fun showSnackBar(message: String) = snackBar(message)
 
-    override fun showSnackBar(resId: Int) = snackBar(resId).show()
+    override fun showSnackBar(resId: Int) = snackBar(resId)
 
     override fun isNetworkConnected() = applicationContext.isNetworkConnected()
 

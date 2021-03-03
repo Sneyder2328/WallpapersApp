@@ -22,12 +22,17 @@ import com.twismart.wallpapershd.ui.base.BaseContract
 class WallpaperListContract {
 
     interface Presenter<V : WallpaperListContract.View> : BaseContract.Presenter<V> {
+
         fun loadWallpapersList()
+
         fun loadMostPopularWallpapers()
+
         fun loadFavoriteWallpapers()
     }
 
     interface View : BaseContract.View {
+
         fun setWallpaperList(wallpaperList: ArrayList<Wallpaper>)
+
     }
 }

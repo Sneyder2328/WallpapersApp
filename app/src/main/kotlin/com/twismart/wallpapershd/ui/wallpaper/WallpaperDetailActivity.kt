@@ -21,12 +21,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.MenuItem
+import com.amazon.device.ads.*
 import com.twismart.wallpapershd.R
 import com.twismart.wallpapershd.data.model.Wallpaper
 import com.twismart.wallpapershd.ui.adapters.DepthPageTransformer
 import com.twismart.wallpapershd.ui.base.BaseActivity
-import com.twismart.wallpapershd.utils.Constants
-import com.twismart.wallpapershd.utils.toAbsoluteValue
+import com.twismart.wallpapershd.utils.*
 import kotlinx.android.synthetic.main.activity_wallpaper.*
 
 class WallpaperDetailActivity : BaseActivity(), WallpaperDetailContract.View, WallpaperDetailFragment.OnWallpaperFragmentListener {
@@ -46,6 +46,7 @@ class WallpaperDetailActivity : BaseActivity(), WallpaperDetailContract.View, Wa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        com.amazon.device.ads.AdRegistration.setAppKey(Constants.API_KEY)
         setContentView(R.layout.activity_wallpaper)
         activityComponent.inject(this)
         mPresenter.attachView(this)
@@ -68,7 +69,7 @@ class WallpaperDetailActivity : BaseActivity(), WallpaperDetailContract.View, Wa
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
             override fun onPageSelected(position: Int) {
                 currentItem = position
-                val wallpaperFragment = mViewPager.adapter.instantiateItem(mViewPager, position) as WallpaperDetailFragment
+                val wallpaperFragment = mViewPager.adapter?.instantiateItem(mViewPager, position) as WallpaperDetailFragment
                 mPresenter.checkIfWallpaperIsFavorite(wallpaperFragment.mWallpaper.id, position)
             }
         })
@@ -76,30 +77,46 @@ class WallpaperDetailActivity : BaseActivity(), WallpaperDetailContract.View, Wa
         mViewPager.post {
             mPresenter.checkIfWallpaperIsFavorite(intent.getParcelableArrayListExtra<Wallpaper>(Constants.WALLPAPERS_LIST)[currentItem].id, currentItem)
         }
+
+        //amazon ads
+        val mAdLayout: AdLayout = findViewById(R.id.adLayout)
+        mAdLayout.setListener(object : AdListener {
+            override fun onAdLoaded(ad: Ad?, p1: AdProperties?) {
+                debug("onAdLoaded")
+            }
+            override fun onAdFailedToLoad(ad: Ad?, error: AdError?) {
+                error("onAdFailedToLoad ${error?.message}")
+                mAdLayout.gone()
+            }
+            override fun onAdExpanded(p0: Ad?) {}
+            override fun onAdDismissed(p0: Ad?) {}
+            override fun onAdCollapsed(p0: Ad?) {}
+        })
+        mAdLayout.loadAd()
     }
 
 
     // implementation of WallpaperDetailContract.View
     override fun wallpaperIsInFavorites(positionFragment: Int) {
-        val wallpaperFragment = mViewPager.adapter.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
+        val wallpaperFragment = mViewPager.adapter?.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
         wallpaperFragment.wallpaperIsInFavorites()
     }
 
     override fun wallpaperIsNotInFavorites(positionFragment: Int) {
-        val wallpaperFragment = mViewPager.adapter.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
+        val wallpaperFragment = mViewPager.adapter?.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
         wallpaperFragment.wallpaperIsNotInFavorites()
     }
 
     override fun loadingWallpaper(positionFragment: Int) {
         if ((mViewPager.currentItem - positionFragment).toAbsoluteValue() <= 1) {
-            val wallpaperFragment = mViewPager.adapter.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
+            val wallpaperFragment = mViewPager.adapter?.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
             wallpaperFragment.loadingWallpaper()
         }
     }
 
     override fun readyWallpaper(positionFragment: Int) {
         if ((mViewPager.currentItem - positionFragment).toAbsoluteValue() <= 1) {
-            val wallpaperFragment = mViewPager.adapter.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
+            val wallpaperFragment = mViewPager.adapter?.instantiateItem(mViewPager, positionFragment) as WallpaperDetailFragment
             wallpaperFragment.readyWallpaper()
         }
     }

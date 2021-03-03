@@ -43,6 +43,12 @@
             android:layout_height="0px"
             android:layout_weight="7" />
 
+        <com.amazon.device.ads.AdLayout
+            android:id="@+id/mAdLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"/>
+
     </LinearLayout>
 
 

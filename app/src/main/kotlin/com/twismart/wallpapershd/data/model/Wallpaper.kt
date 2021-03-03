@@ -28,7 +28,7 @@ data class Wallpaper(
         @SerializedName("width") @Expose var width: String,
         @SerializedName("height") @Expose var height: String,
         @SerializedName("license") @Expose var license: String,
-        @SerializedName("rating") @Expose var rating: String,
+        @SerializedName("rating") @Expose var rating: String = "",
         var isFavorite: Boolean = false) : Parcelable {
 
     companion object {
@@ -39,13 +39,13 @@ data class Wallpaper(
     }
 
     constructor(source: Parcel) : this(
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
+            source.readString().orEmpty(),
+            source.readString().orEmpty(),
+            source.readString().orEmpty(),
+            source.readString().orEmpty(),
+            source.readString().orEmpty(),
+            source.readString().orEmpty(),
+            source.readString().orEmpty(),
             1 == source.readInt()
     )
 

@@ -22,6 +22,8 @@
         android:xlargeScreens="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
 
     <application
@@ -52,6 +54,10 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="93e9f12201ebc50c3a88a5b6914799556a228bfd" />
+
+        <activity
+            android:name="com.amazon.device.ads.AdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
     </application>
 

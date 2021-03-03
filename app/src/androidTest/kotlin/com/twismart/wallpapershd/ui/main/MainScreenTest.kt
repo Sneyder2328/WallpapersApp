@@ -16,26 +16,28 @@
 
 package com.twismart.wallpapershd.ui.main
 
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.UiController
+import android.support.test.espresso.ViewAction
+import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.twismart.wallpapershd.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
-import org.junit.runner.RunWith
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.*
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.filters.LargeTest
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.`is`
-import android.support.test.espresso.UiController
-import android.support.test.espresso.ViewAction
-import android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import android.support.v7.widget.RecyclerView
-import org.junit.*
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.TypeSafeMatcher
+import org.junit.FixMethodOrder
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 @RunWith(AndroidJUnit4::class)
@@ -62,7 +64,7 @@ class MainScreenTest {
                 allOf(withId(R.id.recyclerViewWallpapers),
                         childAtPosition(
                                 allOf(withId(R.id.swipeRefresh),
-                                        withParent(withId(R.id.viewPager))),
+                                        withParent(withId(R.id.mViewPager))),
                                 0),
                         isDisplayed()))
         recyclerView.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
@@ -106,7 +108,7 @@ class MainScreenTest {
         tabView.perform(click())
 
         val viewPager = onView(
-                allOf(withId(R.id.viewPager),
+                allOf(withId(R.id.mViewPager),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(`is`("android.support.design.widget.CoordinatorLayout")),
@@ -128,7 +130,7 @@ class MainScreenTest {
         tabView2.perform(click())
 
         val viewPager2 = onView(
-                allOf(withId(R.id.viewPager),
+                allOf(withId(R.id.mViewPager),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(`is`("android.support.design.widget.CoordinatorLayout")),

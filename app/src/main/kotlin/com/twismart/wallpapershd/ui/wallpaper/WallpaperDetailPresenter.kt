@@ -16,14 +16,16 @@
 
 package com.twismart.wallpapershd.ui.wallpaper
 
+import com.twismart.wallpapershd.data.IDataManager
 import com.twismart.wallpapershd.data.model.Wallpaper
 import com.twismart.wallpapershd.ui.base.BasePresenter
-import com.twismart.wallpapershd.utils.*
+import com.twismart.wallpapershd.utils.debug
+import com.twismart.wallpapershd.utils.error
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class WallpaperDetailPresenter<V : WallpaperDetailContract.View>
-@Inject constructor(dataManager: com.twismart.wallpapershd.data.IDataManager, compositeDisposable: CompositeDisposable)
+@Inject constructor(dataManager: IDataManager, compositeDisposable: CompositeDisposable)
     : BasePresenter<V>(dataManager, compositeDisposable), WallpaperDetailContract.Presenter<V> {
 
     override fun setWallpaperFromUrl(url: String, positionFragment: Int) {
@@ -55,7 +57,7 @@ class WallpaperDetailPresenter<V : WallpaperDetailContract.View>
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribeWith(object : io.reactivex.observers.DisposableObserver<Wallpaper?>() {
                     override fun onComplete() {}
-                    override fun onNext(wallpaper: com.twismart.wallpapershd.data.model.Wallpaper?) {
+                    override fun onNext(wallpaper: com.twismart.wallpapershd.data.model.Wallpaper) {
                         debug("onNext", "checkIfWallpaperIsFavorite")
                         //if wallpaper is in favorites notify it
                         baseView?.wallpaperIsInFavorites(positionFragment)

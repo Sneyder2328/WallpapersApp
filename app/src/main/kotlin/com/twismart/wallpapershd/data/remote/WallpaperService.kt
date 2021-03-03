@@ -17,23 +17,33 @@
 package com.twismart.wallpapershd.data.remote
 
 import com.twismart.wallpapershd.data.model.Wallpaper
-import java.util.ArrayList
-
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.Url
+import java.util.*
 
 interface WallpaperService {
 
     companion object {
-        val END_POINT = "http://52.45.144.5/wallpapers/"
-        val GET_WALLPAPERS = "getWallpapers.php"
-        val GET_MOST_POPULAR_WALLPAPERS = "getMostPopularWallpapers.php"
+        val END_POINT = "http://sneyder.net/wallpapers/"
+        //val GET_WALLPAPERS = "getWallpapers.php"
+        val GET_WALLPAPERS = "index.php"
+        val GET_MOST_POPULAR_WALLPAPERS = GET_WALLPAPERS
+        //val GET_MOST_POPULAR_WALLPAPERS = "getMostPopularWallpapers.php"
         val INCREASE_RATING = "increaseRatingWallpaper.php"
     }
 
-    @GET fun loadWallpapersList(@Url url: String): Observable<ArrayList<Wallpaper>>
-    @POST fun increaseRating(@Url url: String, @Query("extraRating")extraRating: Int, @Query("idWallpaper")idWallpaper: Int): Observable<Unit>
+    @GET
+    fun loadWallpapersList(
+            @Url url: String)
+            : Observable<ArrayList<Wallpaper>>
+
+    @POST
+    fun increaseRating(
+            @Url url: String,
+            @Query("extraRating")extraRating: Int,
+            @Query("idWallpaper")idWallpaper: Int)
+            : Observable<Unit>
 }

@@ -98,7 +98,7 @@ class WallpaperDetailFragment : BaseFragment() {
         }
     }
 
-    fun calculateDimensions(): Pair<Int, Int> {
+    private fun calculateDimensions(): Pair<Int, Int> {
         var widthEnd: Float
         var heightEnd: Float
 

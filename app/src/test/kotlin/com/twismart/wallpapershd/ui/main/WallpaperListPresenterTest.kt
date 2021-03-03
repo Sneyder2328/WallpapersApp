@@ -16,6 +16,7 @@
 
 package com.twismart.wallpapershd.ui.main
 
+import FakeWallpapersDataSource
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -26,8 +27,8 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
 import org.junit.Rule
+import org.junit.Test
 
 class WallpaperListPresenterTest {
 
@@ -51,7 +52,7 @@ class WallpaperListPresenterTest {
     }
 
     @Test
-    fun getWallpapersList() {
+    fun `getWallpapersList`() {
         // prepare fake wallpapers
         val wallpapers = FakeWallpapersDataSource.makeListWallpapers(10)
         whenever(mMockDataManager.loadWallpapersList(WallpaperService.GET_WALLPAPERS)).thenReturn(Observable.just(wallpapers))
